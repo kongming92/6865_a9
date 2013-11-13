@@ -1,10 +1,8 @@
 #a9Script.py
 import imageIO as io
 import a9
-import glob
 import random as rnd
 import numpy as np
-import nprHelper as nprh
 import math
 
 
@@ -47,29 +45,31 @@ def testOrientedPaint(im, texture, outputName, N=10000, size=50, noise=0.3):
 
 def runTests(im, texture, imname):
     # testSingleScale(im, texture, imname)
-    testPainterly(im, texture, imname)
+    # testPainterly(im, texture, imname)
     # testSingleScaleOrientedPaint(im, texture, imname)
-    # testOrientedPaint(im, texture, imname)
+    testOrientedPaint(im, texture, imname)
 
 brush1 = io.imread('brush.png')
 longBrush = io.imread('longBrush.png')
 bigBrush = io.imread('longBrush2.png')
 roundIm = io.imread('round.png')
 
-
 liz = io.imread('liz.png')
 china = io.imread('china.png')
 vpd = io.imread('villeperdue.png')
+corgi = io.imread('archie.png')
 
-
-brushtest = np.zeros([200,200,3])
+# brushtest = np.zeros([200,200,3])
 # testBrush(brushtest, brush1)
 # io.imwrite(brushtest, "brushtest1.png")
 # testAngle(roundIm)
 # runTests(liz, brush1, "Liz")
 # runTests(china, brush1, "China")
-runTests(vpd, brush1, "VPD")
+# runTests(vpd, brush1, "VPD")
+# runTests(corgi, brush1, "Corgi")
 
 # runTests(liz, longBrush, "LizTestLongBrush")
 # runTests(china, longBrush, "ChinaTestLongBrush")
 # runTests(roundIm, longBrush, "RoundImLong")
+runTests(corgi, longBrush, "CorgiLong")
+

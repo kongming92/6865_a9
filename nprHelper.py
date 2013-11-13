@@ -1,16 +1,9 @@
-import imageIO
 from imageIO import *
 #import a2
 #from a2 import *
-import numpy
 from numpy import *
-import scipy
 from scipy import signal
 from scipy import ndimage
-#import a7help
-#reload(a7help)
-#from a7help import *
-import random as rnd
 import math
 
 #Helpful functions for you to use at your own risk! They are probably correct for the most part though...
@@ -32,29 +25,29 @@ def sharpnessMap(im, sigma=1):
     sharpness/=max(sharpness.flatten())
     return imageFrom1Channel(sharpness)
 
-# def computeTensor(im, sigmaG=1, factor=4, debug=False):
-#     L=dot(im, array([0.3, 0.6, 0.1]))
-#     L=L**0.5
-#     L=ndimage.filters.gaussian_filter(L, sigmaG)
-#     gx=signal.convolve(L, Sobel, mode='same')
-#     gy=signal.convolve(L, Sobel.T, mode='same')
+def computeTensor(im, sigmaG=1, factor=4, debug=False):
+    L=dot(im, array([0.3, 0.6, 0.1]))
+    L=L**0.5
+    L=ndimage.filters.gaussian_filter(L, sigmaG)
+    gx=signal.convolve(L, Sobel, mode='same')
+    gy=signal.convolve(L, Sobel.T, mode='same')
 
-#     h, w=im.shape[0], im.shape[1]
+    h, w=im.shape[0], im.shape[1]
 
-#     gx[:, 0:2]=0
-#     gy[0:2, :]=0
-#     gx[:, w-2:w]=0
-#     gy[h-2:h, :]=0
+    gx[:, 0:2]=0
+    gy[0:2, :]=0
+    gx[:, w-2:w]=0
+    gy[h-2:h, :]=0
 
-#     out = empty([L.shape[0], L.shape[1], 2, 2])
+    out = empty([L.shape[0], L.shape[1], 2, 2])
 
-#     out[:, :, 0, 0]=gy*gy
-#     out[:, :, 0, 1]=gy*gx
-#     out[:, :, 1, 0]=gy*gx
-#     out[:, :, 1, 1]=gx*gx
+    out[:, :, 0, 0]=gy*gy
+    out[:, :, 0, 1]=gy*gx
+    out[:, :, 1, 0]=gy*gx
+    out[:, :, 1, 1]=gx*gx
 
-#     out=ndimage.filters.gaussian_filter(out, [sigmaG*factor, sigmaG*factor, 0, 0])
-#     return out
+    out=ndimage.filters.gaussian_filter(out, [sigmaG*factor, sigmaG*factor, 0, 0])
+    return out
 
 def eigenVec(triplet):
     y,x =1.0, 0.0
@@ -66,7 +59,6 @@ def eigenVec(triplet):
         y/=r
         x/=r
     return y, x
-
 
 def scaleImage(im, k):
     h, w=int(im.shape[0]*k), int(im.shape[1]*k)
@@ -111,19 +103,18 @@ def gfilter3(im, sigma):
   im_out[:,:,2]=ndimage.filters.gaussian_filter(im_out[:,:,2], sigma)
   return im_out
 
-def computeTensor(im, sigmaG=1, factorSigma=4):
-  # rgb to lumin
-  l=ndimage.filters.gaussian_filter(BW(im), sigmaG)
+# def computeTensor(im, sigmaG=1, factorSigma=4):
+#   # rgb to lumin
+#   l=ndimage.filters.gaussian_filter(BW(im), sigmaG)
 
+#   # Compute Ix^2, Iy^2, IxIy
+#   Sobel=array([[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]])
+#   im_x=ndimage.filters.convolve(l, Sobel, mode='reflect')
+#   im_y=ndimage.filters.convolve(l, Sobel.transpose(), mode='reflect')
 
-  # Compute Ix^2, Iy^2, IxIy
-  Sobel=array([[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]])
-  im_x=ndimage.filters.convolve(l, Sobel, mode='reflect')
-  im_y=ndimage.filters.convolve(l, Sobel.transpose(), mode='reflect')
-
-  # Pack components
-  im_out=dstack([im_x**2, im_x*im_y, im_y**2])
-  im_out=gfilter3(im_out, sigmaG*factorSigma)
-  return im_out
+#   # Pack components
+#   im_out=dstack([im_x**2, im_x*im_y, im_y**2])
+#   im_out=gfilter3(im_out, sigmaG*factorSigma)
+#   return im_out
 
 
