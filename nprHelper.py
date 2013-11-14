@@ -1,6 +1,4 @@
 from imageIO import *
-#import a2
-#from a2 import *
 from numpy import *
 from scipy import signal
 from scipy import ndimage
